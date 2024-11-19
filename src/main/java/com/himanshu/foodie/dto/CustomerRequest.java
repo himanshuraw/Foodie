@@ -24,14 +24,14 @@ public record CustomerRequest(
         @Size(min = 6, max = 12)
         @JsonProperty("password")
         String password,
-        
+
         @NotBlank(message = "Address should be present")
         @JsonProperty("address")
         String address,
 
         @NotNull(message = "Pincode should be present")
         @JsonProperty("pincode")
-        int pincode
+        Integer pincode
 
 ) {
 

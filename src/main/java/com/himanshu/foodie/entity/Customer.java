@@ -33,7 +33,7 @@ public class Customer {
     private String address;
 
     @Column(name = "pincode")
-    private int pincode;
+    private Integer pincode;
 
     @Column(name = "access_token", unique = true)
     private String accessToken;
