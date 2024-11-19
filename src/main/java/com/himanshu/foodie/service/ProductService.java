@@ -20,4 +20,18 @@ public class ProductService {
         productRepo.save(product);
         return "Product created";
     }
+
+    public String updateProduct(String name, ProductRequest request) {
+        Product product = productRepo.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        if (request.name() != null) {
+            product.setName(request.name());
+        }
+        if (request.price() != null) {
+            product.setPrice(request.price());
+        }
+
+        productRepo.save(product);
+        return "Product details updated";
+    }
 }
