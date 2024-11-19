@@ -39,7 +39,7 @@ public class CustomerService {
     private Customer getCustomer(String email) {
         return customerRepo.findByEmail(email)
                 .orElseThrow(() -> new CustomerNotFoundException(
-                        format("Cannot update Customer:: No customer found with the provided ID:: %s", email)
+                        format("Cannot find Customer:: No customer found with the provided ID:: %s", email)
                 ));
     }
 
