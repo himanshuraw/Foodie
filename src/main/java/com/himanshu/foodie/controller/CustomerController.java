@@ -36,7 +36,6 @@ public class CustomerController {
     @DeleteMapping
     public ResponseEntity<String> deleteCustomer(@RequestHeader("Authorization") String authHeader) throws BadRequestException {
         String email = customerService.validateAndExtractUsername(authHeader);
-        customerService.deleteCustomer(email);
         return ResponseEntity.ok(customerService.deleteCustomer(email));
     }
 }
