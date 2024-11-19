@@ -1,6 +1,7 @@
 package com.himanshu.foodie.controller;
 
 import com.himanshu.foodie.dto.ProductRequest;
+import com.himanshu.foodie.dto.ProductResponse;
 import com.himanshu.foodie.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,18 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct((request)));
     }
 
-    @PutMapping("/{name}")
-    public ResponseEntity<String> updateProduct(@PathVariable("name") String name, @RequestBody ProductRequest request) {
-        return ResponseEntity.ok(productService.updateProduct(name, request));
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProducts(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(productService.retrieveProduct(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequest request) {
+        return ResponseEntity.ok(productService.updateProduct(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(productService.deleteProduct(id));
     }
 }
