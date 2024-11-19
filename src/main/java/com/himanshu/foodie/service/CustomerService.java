@@ -11,6 +11,7 @@ import com.himanshu.foodie.mapper.CustomerMapper;
 import com.himanshu.foodie.repo.CustomerRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
@@ -55,5 +56,39 @@ public class CustomerService {
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
         customerRepo.delete(customer);
         return "Customer ( " + email + " ) deleted";
+    }
+
+    public String validateAndExtractUsername(String authHeader) throws BadRequestException {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new BadRequestException("Invalid Authorization header");
+        }
+        String token = authHeader.substring(7);
+
+        if (!jwtHelper.validateToken(token)) {
+            throw new BadRequestException("Invalid JWT token");
+        }
+
+        return jwtHelper.extractUsername(token);
+    }
+
+    public String updateCustomer(String email, @Valid CustomerRequest request) {
+        Customer customer = customerRepo.findByEmail(email)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+        if (request.firstName() != null) {
+            customer.setFirstName(request.firstName());
+        }
+        if (request.lastName() != null) {
+            customer.setLastName(request.lastName());
+        }
+        if (request.address() != null) {
+            customer.setAddress(request.address());
+        }
+        if (request.pincode() != null) {
+            customer.setPincode(request.pincode());
+        }
+
+        customerRepo.save(customer);
+        return "Customer details updated";
     }
 }
