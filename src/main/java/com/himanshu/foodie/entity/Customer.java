@@ -34,7 +34,4 @@ public class Customer {
 
     @Column(name = "pincode")
     private Integer pincode;
-
-    @Column(name = "access_token", unique = true)
-    private String accessToken;
 }
