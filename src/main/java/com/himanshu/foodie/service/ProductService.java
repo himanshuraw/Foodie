@@ -10,6 +10,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.lang.String.format;
 
 @Service
@@ -56,5 +59,12 @@ public class ProductService {
         String name = product.getName();
         productRepo.delete(product);
         return "Product " + name + " deleted";
+    }
+
+    public List<ProductResponse> query() {
+        return productRepo.query(15, 30)
+                .stream()
+                .map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice()))
+                .collect(Collectors.toList());
     }
 }
